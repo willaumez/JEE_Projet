@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>formPatient</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/5.2.3/js/bootstrap.bundle.js"></script>
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="w-25 m-auto">Ajouter un Patient</h3>
+            </div>
+            <div class="card-body m-3">
+                <form method="post" th:action="@{savePatient}">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="form-label">Nom: </label>
+                            <input type="text" class="form-control" name="nom" th:value="${patient.nom}">
+                            <span th:errors="${patient.nom}" class="text-danger"></span>
+                        </div>
+                        <div class="col">
+                            <label class="form-label">Date-Naissance: </label>
+                            <input type="date" class="form-control" name="dateNaissance" th:value="${patient.dateNaissance}">
+                            <span th:errors="${patient.dateNaissance}" class="text-danger"></span>
+                        </div>
+                        <div class="col">
+                            <label class="form-label">Age: </label>
+                            <input type="number" class="form-control" name="age" th:value="${patient.age}">
+                            <span th:errors="${patient.age}" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-5">
+                        <div class="col">
+                            <label class="form-label">Genre:</label>
+                            <select class="form-select" name="genre" th:value="${patient.genre}">
+                                <option value="HOMME">Homme</option>
+                                <option value="FEMME">Femme</option>
+                            </select>
+                            <span th:errors="${patient.genre}" class="text-danger"></span>
+                        </div>
+                        <div class="col">
+                            <label class="form-label">Score:</label>
+                            <input type="number" class="form-control" name="score" th:value="${patient.score}">
+                            <span th:errors="${patient.score}" class="text-danger"></span>
+                        </div>
+                        <div class="col">
+                            <div class="form-check mt-4">
+                                <input type="checkbox" class="form-check-input" name="malade" th:checked="${patient.malade}">
+                                <label class="form-check-label">Malade?</label>
+                                <span th:errors="${patient.malade}" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row w-25 m-auto">
+                        <button type="submit" class="btn btn-primary w-100 m-auto">Ajouter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

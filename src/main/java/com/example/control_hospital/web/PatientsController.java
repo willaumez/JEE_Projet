@@ -10,12 +10,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.naming.Binding;
 import javax.validation.Valid;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.BinaryOperator;
 
 @Controller
 @AllArgsConstructor
@@ -43,14 +47,35 @@ public class PatientsController {
         return "patients";
     }
 
-
     @GetMapping(path = "/delete")
     public String delete(@RequestParam("id") Long patientId, String keyword, int page) {
         patientRepository.deleteById(patientId);
         return "redirect:/index?page="+page+"&keyword="+keyword;
     }
 
+    @GetMapping(path = "/patients")
+    @ResponseBody
+    public List<Patient>listPatients(){
+        return patientRepository.findAll();
+    }
 
+
+    @GetMapping(path = "/formPatient")
+    public String formPatients(Model model){
+        model.addAttribute("patient", new Patient());
+        return "formPatient";
+    }
+
+    @PostMapping("/savePatient")
+    public String savePatient(Model model, @Valid Patient patient, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) return "formPatient";
+        patientRepository.save(patient);
+        return "formPatient";
+    }
+
+
+
+    //-----------------------------------------------------------------------------------------------------//
 
     @PostMapping("/patients")
     public ResponseEntity<Patient> addPatient(@RequestBody Patient patient) {

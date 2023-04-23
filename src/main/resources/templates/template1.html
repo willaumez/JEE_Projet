@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Nav</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/5.2.3/js/bootstrap.bundle.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+
+    <div class="container-fluid">
+        <!-- Links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link active" href="#" role="button">HOME</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" role="button">CONSULTATIONS</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" role="button">MEDECINS</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" role="button" th:href="@{index}">PATIENTS</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">[userName]</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">LogOut</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+</nav>
+<section layout:fragment="content1">
+
+
+</section>
+
+</body>
+</html>
