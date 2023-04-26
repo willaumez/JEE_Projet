@@ -70,7 +70,7 @@ public class PatientsController {
     public String savePatient(Model model, @Valid Patient patient, BindingResult bindingResult){
         if (bindingResult.hasErrors()) return "formPatient";
         patientRepository.save(patient);
-        return "formPatient";
+        return "redirect:/index";
     }
 
 

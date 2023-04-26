@@ -21,24 +21,24 @@
                     <div class="row mb-3">
                         <div class="col">
                             <label class="form-label">Nom: </label>
-                            <input type="text" class="form-control" name="nom" th:value="${patient.nom}">
+                            <input type="text" class="form-control" name="nom" th:value="${patient.nom}" required>
                             <span th:errors="${patient.nom}" class="text-danger"></span>
                         </div>
                         <div class="col">
                             <label class="form-label">Date-Naissance: </label>
-                            <input type="date" class="form-control" name="dateNaissance" th:value="${patient.dateNaissance}">
+                            <input type="date" class="form-control" name="dateNaissance" th:value="${patient.dateNaissance}" required>
                             <span th:errors="${patient.dateNaissance}" class="text-danger"></span>
                         </div>
                         <div class="col">
                             <label class="form-label">Age: </label>
-                            <input type="number" class="form-control" name="age" th:value="${patient.age}">
+                            <input type="number" class="form-control" name="age" th:value="${patient.age}" required>
                             <span th:errors="${patient.age}" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="row mb-5">
                         <div class="col">
                             <label class="form-label">Genre:</label>
-                            <select class="form-select" name="genre" th:value="${patient.genre}">
+                            <select class="form-select" name="genre" th:value="${patient.genre}" required>
                                 <option value="HOMME">Homme</option>
                                 <option value="FEMME">Femme</option>
                             </select>
@@ -46,7 +46,7 @@
                         </div>
                         <div class="col">
                             <label class="form-label">Score:</label>
-                            <input type="number" class="form-control" name="score" th:value="${patient.score}">
+                            <input type="number" class="form-control" name="score" th:value="${patient.score}" required>
                             <span th:errors="${patient.score}" class="text-danger"></span>
                         </div>
                         <div class="col">
