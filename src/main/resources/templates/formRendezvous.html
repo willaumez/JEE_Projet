@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>formRendezVous</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/5.2.3/js/bootstrap.bundle.js"></script>
+
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="w-25 m-auto">Planifier un Rendez-Vous</h3>
+            </div>
+            <div class="card-body m-3">
+                <form method="post" th:action="@{saveRendezvous}" autocomplete="off">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="form-label">MEDECIN: </label>
+                            <select class="form-select" name="medecin" required th:value="${rendezvous.medecin}">
+                                <option value="">Sélectionnez un médecin</option>
+                                <th:block th:each="medecin : ${medecins}">
+                                    <option th:value="${medecin.id}" th:text="${medecin.nom}"></option>
+                                </th:block>
+                            </select>
+                            <span th:errors="${rendezvous.medecin}" class="text-danger"></span>
+                        </div>
+                        <div class="col">
+                            <label class="form-label">PATIENT: </label>
+                            <select class="form-select" name="patient" required th:value="${rendezvous.patient}">
+                                <option value="">Sélectionnez un patient</option>
+                                <th:block th:each="patient : ${patients}">
+                                    <option th:value="${patient.id}" th:text="${patient.nom}"></option>
+                                </th:block>
+                            </select>
+                            <span th:errors="${rendezvous.patient}" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row w-25 m-auto">
+                        <button type="submit" class="btn btn-primary w-100 m-auto">Ajouter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+
+</html>

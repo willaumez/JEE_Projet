@@ -20,7 +20,6 @@ public class RendezVous {
     @Enumerated(EnumType.STRING)
     private StatusRDV status;
     @ManyToOne
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Patient patient;
     @ManyToOne
     private Medecin medecin;

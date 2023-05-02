@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>formMedecin</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/5.2.3/js/bootstrap.bundle.js"></script>
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="w-25 m-auto">Modifier:</h3>
+            </div>
+            <div class="card-body m-3">
+                <form method="post" th:action="@{saveMedecin(page=${page}, keyword=${keyword})}">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="form-label">Id: </label>
+                            <label class="form-label" th:text="${medecin.id}"></label>
+                            <input type="hidden" class="form-control" name="id" th:value="${medecin.id}" required>
+                        </div>
+                        <div class="col">
+                            <label class="form-label">Nom: </label>
+                            <input type="text" class="form-control" name="nom" th:value="${medecin.nom}" required>
+                            <span th:errors="${medecin.nom}" class="text-danger"></span>
+                        </div>
+                        <div class="col">
+                            <label class="form-label">E-Mail: </label>
+                            <input type="email" class="form-control" name="email" th:value="${medecin.email}" required>
+                            <span th:errors="${medecin.email}" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-5">
+                        <div class="w-50 m-auto">
+                            <label class="form-label">Specialite: </label>
+                            <input type="text" class="form-control" name="specialite" th:value="${medecin.specialite}" required>
+                            <span th:errors="${medecin.specialite}" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row w-25 m-auto">
+                        <button type="submit" class="btn btn-primary w-100 m-auto">Ajouter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

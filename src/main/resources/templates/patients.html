@@ -8,17 +8,19 @@
     <meta charset="UTF-8">
     <title>Liste des patients</title>
     <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.4/font/bootstrap-icons.css">
+
 </head>
 <body>
 <div layout:fragment="content1">
     <div class="container mt-5">
         <div class="card">
-            <a th:href="@{formPatient}" class="text-white w-25 m-auto"><button class="btn btn-primary w-100">Ajouter</button></a>
+            <a th:href="@{/admin/formPatient}" th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="text-white w-25 m-auto"><button class="btn btn-primary w-100">Ajouter</button></a>
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h3 class="mt-3">Liste des patients</h3>
                 <form class="form-inline d-flex" method="get" th:action="@{index}">
                     <input class="form-control mr-sm-2" type="text" name="keyword" th:value="${keyword}">
-                    <button class="btn btn-primary" type="submit">Chercher</button>
+                    <button class="btn btn-outline-primary" type="submit"> <i class="bi bi-search"></i></button>
                 </form>
             </div>
             <div class="card-body">
@@ -43,9 +45,14 @@
                         <td th:text="${p.genre}"></td>
                         <td th:text="${p.malade}"></td>
                         <td th:text="${p.score}"></td>
-                        <td>
-                            <a onclick="return confirm('Etes-vous sure? ')" class="btn btn-danger"
-                               th:href="@{delete(id=${p.id}, keyword=${keyword}, page=${currentPage})}">Suppimer</a>
+                        <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                            <a onclick="return confirm('Etes-vous sure? ')" class="btn btn-outline-danger"
+                               th:href="@{/admin/delete(id=${p.id}, keyword=${keyword}, page=${currentPage})}"> <i class="bi bi-trash"></i></a>
+                        </td>
+                        <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+
+                            <a class="btn btn-outline-primary"
+                               th:href="@{/admin/editPatient(id=${p.id}, keyword=${keyword}, page=${currentPage})}"><i class="bi bi-pencil"></i></a>
                         </td>
                     </tr>
                     </tbody>
@@ -56,7 +63,7 @@
                     <li th:each="pages, status:${pages}">
                         <a th:class="${status.index==currentPage? 'btn btn-primary ms-1':'btn btn-outline-primary ms-1'}"
                            th:text="${status.index}" class="btn"
-                           th:href="@{index(page=${status.index}, keyword=${keyword})}"
+                           th:href="@{/user/index(page=${status.index}, keyword=${keyword})}"
                         />
                     </li>
                 </ul>

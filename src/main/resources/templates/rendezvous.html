@@ -8,16 +8,18 @@
     <meta charset="UTF-8">
     <title>Liste des rendezvous</title>
     <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/bootstrap-icons/1.10.4/font/bootstrap-icons.css">
+
 </head>
 <body>
 <div layout:fragment="content1">
     <div class="container mt-5">
         <div class="card">
-            <a th:href="@{formRendezvous}" class="text-white w-25 me-auto"><button class="btn btn-primary w-100">Ajouter</button></a>
+            <a th:href="@{/admin/formRendezvous}" th:if="${#authorization.expression('hasRole(''ADMIN'')')}" class="text-white w-25 m-auto"><button class="btn btn-primary w-100">Ajouter</button></a>
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h3 class="mt-3">Liste des rendez-Vous</h3>
                 <form class="form-inline d-flex" method="get" th:action="@{rendezvous}">
-                    <input class="form-control mr-sm-2" type="text" name="date" th:value="${#dates.format(keyword, 'yyyy-MM-dd')}">
+                    <input class="form-control mr-sm-2" type="date" name="date" th:value="${#dates.format(keyword, 'yyyy-MM-dd')}">
                     <button class="btn btn-primary" type="submit">Chercher</button>
                 </form>
             </div>
@@ -25,7 +27,6 @@
                 <table class="table table-striped mt-3">
                     <thead>
                     <tr>
-                        <th>ID</th>
                         <th>MEDECIN</th>
                         <th>PATIENT</th>
                         <th>DATE</th>
@@ -34,14 +35,13 @@
                     </thead>
                     <tbody>
                     <tr th:each="rdv:${ListRendezVous}">
-                        <td th:text="${rdv.id}"></td>
                         <td th:text="${rdv.medecin.nom}"></td>
                         <td th:text="${rdv.patient.nom}"></td>
                         <td th:text="${rdv.date}"></td>
                         <td th:text="${rdv.status}"></td>
-                        <td>
-                            <a onclick="return confirm('Etes-vous sure? ')" class="btn btn-danger"
-                               th:href="@{rendezvousDelete(id=${m.id}, keyword=${keyword}, page=${currentPage})}">Suppimer</a>
+                        <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                            <a onclick="return confirm('Etes-vous sure? ')" class="btn btn-outline-danger"
+                               th:href="@{/admin/rendezvousDelete(id=${rdv.id}, keyword=${keyword}, page=${currentPage})}"><i class="bi bi-trash"></i></a>
                         </td>
                     </tr>
                     </tbody>
@@ -52,7 +52,7 @@
                     <li th:each="pages, status:${pages}">
                         <a th:class="${status.index==currentPage? 'btn btn-primary ms-1':'btn btn-outline-primary ms-1'}"
                            th:text="${status.index}" class="btn"
-                           th:href="@{rendezvous(page=${status.index}, keyword=${keyword})}"
+                           th:href="@{/user/rendezvous(page=${status.index}, dateSearch=${keyword})}"
                         />
                     </li>
                 </ul>

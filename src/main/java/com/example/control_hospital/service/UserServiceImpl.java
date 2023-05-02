@@ -1,7 +1,7 @@
 package com.example.control_hospital.service;
 
-import com.example.control_hospital.entities.Role;
-import com.example.control_hospital.entities.User;
+import com.example.control_hospital.security.entities.AppRole;
+import com.example.control_hospital.security.entities.AppUser;
 import com.example.control_hospital.repositories.RoleRepository;
 import com.example.control_hospital.repositories.UserRepository;
 import jakarta.transaction.Transactional;
@@ -20,55 +20,55 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User addNewUser(User user) {
-        user.setUserId(UUID.randomUUID().toString());
-        return userRepository.save(user);
+    public AppUser addNewUser(AppUser appUser) {
+        appUser.setUserId(UUID.randomUUID().toString());
+        return userRepository.save(appUser);
     }
 
     @Override
-    public Role addNewRole(Role role) {
-        return roleRepository.save(role);
+    public AppRole addNewRole(AppRole appRole) {
+        return roleRepository.save(appRole);
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<AppUser> getAllUsers() {
         return userRepository.findAll();
     }
 
     @Override
-    public List<Role> getAllRoles() {
+    public List<AppRole> getAllRoles() {
         return roleRepository.findAll();
     }
 
     @Override
-    public User findUserByUserName(String userName) {
-        return userRepository.findByUserName(userName);
+    public AppUser findUserByUserName(String userName) {
+        return userRepository.findByUsername(userName);
     }
 
     @Override
-    public Role findRoleByRoleName(String roleName) {
-        return roleRepository.findByRoleName(roleName);
+    public AppRole findRoleByRoleName(String roleName) {
+        return roleRepository.findByRole(roleName);
     }
 
     @Override
     public void addRoleToUser(String userName, String roleName) {
-        User user= this.findUserByUserName(userName);
-        Role role= this.findRoleByRoleName(roleName);
-        if (user.getRoles()!=null){
-            user.getRoles().add(role);
-            role.getUsers().add(user);
+        AppUser appUser = this.findUserByUserName(userName);
+        AppRole appRole = this.findRoleByRoleName(roleName);
+        if (appUser.getAppRoles()!=null){
+            appUser.getAppRoles().add(appRole);
+            //appRole.getUsers().add(appUser);
         }
         //userRepository.save(user);
     }
 
     @Override
-    public User authenticate(String userName, String password) {
-        User user= userRepository.findByUserName(userName);
-        if (user==null)
+    public AppUser authenticate(String userName, String password) {
+        AppUser appUser = userRepository.findByUsername(userName);
+        if (appUser ==null)
             throw new RuntimeException("Bad credentials");
 
-         if (user.getUserPassword().equals(password)){
-             return user;
+         if (appUser.getPassword().equals(password)){
+             return appUser;
          }
          throw new RuntimeException("Bad credentials");
     }

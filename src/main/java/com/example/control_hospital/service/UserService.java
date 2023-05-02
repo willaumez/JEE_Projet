@@ -1,21 +1,21 @@
 package com.example.control_hospital.service;
 
-import com.example.control_hospital.entities.Role;
-import com.example.control_hospital.entities.User;
+import com.example.control_hospital.security.entities.AppRole;
+import com.example.control_hospital.security.entities.AppUser;
 
 import java.util.List;
 
 public interface UserService {
-    User addNewUser(User user);
-    Role addNewRole(Role role);
+    AppUser addNewUser(AppUser appUser);
+    AppRole addNewRole(AppRole appRole);
 
-    List<User> getAllUsers();
+    List<AppUser> getAllUsers();
 
-    List<Role> getAllRoles();
+    List<AppRole> getAllRoles();
 
-    User findUserByUserName(String userName);
-    Role findRoleByRoleName(String roleName);
+    AppUser findUserByUserName(String userName);
+    AppRole findRoleByRoleName(String roleName);
     void addRoleToUser(String userName, String roleName);
-    User authenticate(String userName, String password);
+    AppUser authenticate(String userName, String password);
 
 }

@@ -1,15 +1,10 @@
 package com.example.control_hospital.web;
 
 import com.example.control_hospital.entities.Medecin;
-import com.example.control_hospital.entities.Patient;
-import com.example.control_hospital.repositories.ConsultationRepository;
 import com.example.control_hospital.repositories.MedecinRepository;
-import com.example.control_hospital.repositories.PatientRepository;
-import com.example.control_hospital.service.IHospitalService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +20,7 @@ public class MedecinsController {
 
     private MedecinRepository medecinRepository;
 
-    @GetMapping(path = "/medecins")
+    @GetMapping(path = "/user/medecins")
     public String medecins(Model model,
                            @RequestParam(name = "page", defaultValue = "0") int page,
                            @RequestParam(name = "size", defaultValue = "8") int size,
@@ -38,30 +33,66 @@ public class MedecinsController {
         return "medecins";
     }
 
-    @GetMapping(path = "/medecinDelete")
+    @GetMapping(path = "/admin/medecinDelete")
     public String medecinDelete(@RequestParam("id") Long medecinId, String keyword, int page) {
         medecinRepository.deleteById(medecinId);
-        return "redirect:/medecins?page="+page+"&keyword="+keyword;
+        return "redirect:/user/medecins?page="+page+"&keyword="+keyword;
     }
 
-    @GetMapping(path = "/allMedecins")
+    @GetMapping(path = "/admin/allMedecins")
     @ResponseBody
     public List<Medecin>listMedecins(){
         return medecinRepository.findAll();
     }
 
 
-    @GetMapping(path = "/formMedecin")
+    @GetMapping(path = "/admin/formMedecin")
     public String formMedecin(Model model){
         model.addAttribute("medecin", new Medecin());
         return "formMedecin";
     }
 
-    @PostMapping("/saveMedecin")
-    public String saveMedecin(Model model, @Valid Medecin medecin, BindingResult bindingResult){
+    @GetMapping(path = "/admin/editMedecin")
+    public String editMedecint(Model model, Long id, String keyword, int page){
+        Medecin medecin= medecinRepository.findById(id).orElse(null);
+        if (medecin==null) throw new RuntimeException("Medecin Introuvable");
+        model.addAttribute("medecin", medecin);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("page", page);
+        return "editMedecin";
+    }
+
+
+    @PostMapping("/admin/saveMedecin")
+    public String saveMedecin(Model model, @Valid Medecin medecin, BindingResult bindingResult,
+                              @RequestParam(defaultValue = "0") int page,
+                              @RequestParam(defaultValue = "") String keyword){
         if (bindingResult.hasErrors()) return "formMedecin";
         medecinRepository.save(medecin);
-        return "redirect:/medecins";
+        return "redirect:/user/medecins?page="+page+"&keyword="+keyword;
+    }
+
+    /*@GetMapping("/admin/medecinDetail")
+    public String medecinDetail(@RequestParam("id") Long id, Model model) {
+        Medecin medecin = medecinRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Medecin Id:" + id));
+
+        model.addAttribute("medecin", medecin);
+        model.addAttribute("rendezvous", medecin.getRendezVous());
+        System.out.println("rendezvous: "+ medecin.getRendezVous());
+        return "medecinDetail";
+    }*/
+
+    @GetMapping("/admin/medecinDetail")
+    public String medecinDetail(@RequestParam("id") Long id, Model model) {
+        Optional<Medecin> medecinOptional = medecinRepository.findById(id);
+        if (medecinOptional.isEmpty()) {
+            throw new IllegalArgumentException("Invalid Medecin Id:" + id);
+        }
+        Medecin medecin = medecinOptional.get();
+        model.addAttribute("medecin", medecin);
+        model.addAttribute("rendezvous", medecin.getRendezVous());
+        return "medecinDetail";
     }
 
 

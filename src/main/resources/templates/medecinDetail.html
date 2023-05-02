@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des medecins</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css">
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="container mt-5 mb-5">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="row mb-3 w-100">
+                    <div class="col w-25">
+                        Nom: <span th:text="${medecin.nom}" class="form-label"/>
+                    </div>
+                    <div class="col w-25">
+                        Email: <span th:text="${medecin.email}"  class="form-label"/>
+                    </div>
+                    <div class="col w-25">
+                        Specialite: <span th:text="${medecin.specialite}" class="form-label"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5 mb-5">
+        <div class="card mt-5">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="mt-3">Rendez-Vous</h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped mt-3">
+                    <thead>
+                    <tr>
+                        <th>PATIENT</th>
+                        <th>DATE</th>
+                        <th>STATUS</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="rdv:${rendezvous}">
+                        <td th:text="${rdv.patient.nom}"></td>
+                        <td th:text="${rdv.date}"></td>
+                        <td th:text="${rdv.status}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
